@@ -4,6 +4,8 @@ const cookieSession = require("cookie-session");
 
 const app = express();
 
+const port = 3000;
+
 app.use(cors());
 
 app.use(express.json());
@@ -19,22 +21,35 @@ app.use(
 );
 
 
-require("./app/routes/auth.routes")(app)
-require("./app/routes/user.routes")(app)
+const { createDatabaseIfNeeded } = require('./app/database/db.js'); // Adjust path if needed
+const { runMigrations } = require('./app/database/migrations.js'); // Adjust path if needed
 
-    const db = require("./app/models/index.js");
-    const Role = db.role;
+// Step 1: Create the database if it doesn't exist
+createDatabaseIfNeeded().then(() => {
+  // Step 2: Run migrations once the database exists
+  runMigrations();
+}).then(() => {
+  console.log('Server is starting...');
+    // Step 3: Start the Express server
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+      });
+    
+    }).catch((err) => {
+      console.error('Error during database setup or migrations:', err);
+    });
 
-// app.use('/', (req, res, next) => {
+
+    require("./app/routes/auth.routes")(app)
+    require("./app/routes/user.routes")(app)
+    
+        const db = require("./app/models/index.js");
+        const Role = db.role;
+    
+// db.sequelize.sync({force: true}).then(() => {
+//     console.log("Drop and resync db");
 //     initial();
-//     next()
-// })
-
-
-db.sequelize.sync({force: true}).then(() => {
-    console.log("Drop and resync db");
-    initial();
-});
+// });
 
 function initial(){
     Role.create({
@@ -58,7 +73,8 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the backend"})
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}, http://localhost:8080/`)
-});
+// const PORT = process.env.PORT || 8080;
+
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}, http://localhost:8080/`)
+// });
