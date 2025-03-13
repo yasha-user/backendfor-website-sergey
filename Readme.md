@@ -11,4 +11,5 @@ for this to work you need to
 
 <h4>what do I need to do:</h4>
 
+fix <code>sqlMessage: "Unknown database 'exampleDb'"</code>
 fix <code>sqlMessage: "Table 'exampleDb.roles' doesn't exist"</code> error

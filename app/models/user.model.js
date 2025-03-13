@@ -11,6 +11,9 @@ const User = sequelize.define("users", {
         type: Sequelize.STRING
     },
 
+},  {
+    tableName: "users",
+    timeStamps: "true"
 });
 
 return User;

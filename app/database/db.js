@@ -3,9 +3,9 @@ const dotenv = require("dotenv");
 require('dotenv').config();
 
 // Create a Sequelize instance without connecting to a specific database yet
-const sequelize = new Sequelize(`mysql://root:${process.env.SQL_PWD}@127.0.0.1:3306`, {
+const sequelize = new Sequelize(`mysql://root:${process.env.SQL_PWD}@127.0.0.1:3306/exampleDb`, {
   dialect: 'mysql',
-  logging: false,
+  logging: console.log,
 });
 
 // Function to create database if it doesn't exist

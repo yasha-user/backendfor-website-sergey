@@ -8,6 +8,9 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING
         }
+    }, {
+        tableName: "roles",
+        timeStamps: "true"
     });
 
     return Role;
