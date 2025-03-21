@@ -11,5 +11,6 @@ for this to work you need to
 
 <h4>what do I need to do:</h4>
 
-fix <code>sqlMessage: "Unknown database 'exampleDb'"</code>
-fix <code>sqlMessage: "Table 'exampleDb.roles' doesn't exist"</code> error
+<!-- fix <code>sqlMessage: "Table 'exampleDb.roles' doesn't exist"</code> error after every odd attempt of running server.js -->
+fix <code>sqlMessage: "Cannot drop table 'roles' referenced by a foreign key constraint 'user_roles_ibfk_1' on table 'user_roles'.",</code>
+
