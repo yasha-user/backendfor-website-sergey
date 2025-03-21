@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
     cookieSession({
@@ -78,6 +78,31 @@ async function initializeDatabase() {
   // Example: 
   const User = require('./app/models/user.model.js')(sequelize);
   const Role = require('./app/models/role.model')(sequelize);
+
+  // checks if there is a locking link between user_roles to users and roles 
+  // and if there is -- removes it
+  const [results1] = await sequelize.query(`
+    SELECT CONSTRAINT_NAME
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE TABLE_NAME = 'user_roles' AND CONSTRAINT_NAME = 'user_roles_ibfk_1';
+  `);
+
+  const [results2] = await sequelize.query(`
+    SELECT CONSTRAINT_NAME
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE TABLE_NAME = 'user_roles' AND CONSTRAINT_NAME = 'user_roles_ibfk_2';
+  `);
+
+  if(results1.length > 1){
+    await sequelize.queryInterface.removeConstraint('user_roles', 'user_roles_ibfk_1');
+  }
+
+  if(results2.length > 1){
+  await sequelize.queryInterface.removeConstraint('user_roles', 'user_roles_ibfk_2');
+  }
+
+
+
   await sequelize.sync({force: true});
   console.log("Drop and resync db");
 

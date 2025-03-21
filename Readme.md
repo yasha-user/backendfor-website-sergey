@@ -12,5 +12,8 @@ for this to work you need to
 <h4>what do I need to do:</h4>
 
 <!-- fix <code>sqlMessage: "Table 'exampleDb.roles' doesn't exist"</code> error after every odd attempt of running server.js -->
-fix <code>sqlMessage: "Cannot drop table 'roles' referenced by a foreign key constraint 'user_roles_ibfk_1' on table 'user_roles'.",</code>
+<!-- fix <code>sqlMessage: "Cannot drop table 'roles' referenced by a foreign key constraint 'user_roles_ibfk_1' on table 'user_roles'.",</code> -->
 
+maybe db.js and migrations from /database are not used anymore and its better to delete them
+
+on the frontend when i signup i get <code>Unable to validate Username</code> error, need to fix it

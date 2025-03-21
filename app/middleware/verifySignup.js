@@ -32,6 +32,7 @@ try {
 } catch(err){
     return res.status(500).send({
         message: "Unable to validate Username!"
+        // this error is returned
     })
 }
 }
