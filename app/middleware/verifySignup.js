@@ -1,8 +1,11 @@
+const { json } = require("sequelize");
 const db = require("../models")
 const ROLES = db.ROLES
 const User = db.user
 
 checkDuplicateUsernameOrEmail= async (req, res, next) => {
+    // console.dir(req.body``, { depth: null, colors: true})
+    // console.log({req})
 try {
     let user = await User.findOne({
         where: {
@@ -28,11 +31,10 @@ try {
     }
     next();
 
-
 } catch(err){
+    console.log(err);
     return res.status(500).send({
         message: "Unable to validate Username!"
-        // this error is returned
     })
 }
 }

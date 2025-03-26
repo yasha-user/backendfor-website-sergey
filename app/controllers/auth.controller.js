@@ -30,11 +30,17 @@ exports.signup = async (req, res) => {
       });
 
       const result = user.setRoles(roles);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) {
+        console.log("User registered successfully")
+        res.redirect("http://localhost:5173/login");
+      }
     } else {
       // user has role = 1
       const result = user.setRoles([1]);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) {
+        console.log("User registered successfully")
+        res.redirect("http://localhost:5173/login");
+      }
     }
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -80,12 +86,17 @@ exports.signin = async (req, res) => {
 
     req.session.token = token;
 
-    return res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      roles: authorities,
-    });
+    // hardcoded user, need to work for mod and admin
+    return res.status(200).redirect("http://localhost:8080/api/test/user"
+      // login response
+      // actually you logged in now and can access user content.
+    //   {
+    //   id: user.id,
+    //   username: user.username,
+    //   email: user.email,
+    //   roles: authorities,
+    // }
+  );
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
